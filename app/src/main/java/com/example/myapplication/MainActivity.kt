@@ -6,6 +6,11 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.databinding.CalculadoraUIBinding
 
+var blockOperator:Boolean = true
+var hasComa:Boolean = false
+var currentNumber:String = ""
+var listExpression = mutableListOf<Any>()
+
 class MainActivity : AppCompatActivity() {
     // Definindo a variavel que ira receber o layout da calculadora
     // "lateinit" para declarar a variavel para inicializar mais tarde
@@ -19,74 +24,110 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.btn0.setOnClickListener {
-            numClick(binding.txtEquacao, "0")
+            numberClick(binding.txtEquacao, "0")
         }
 
         binding.btn1.setOnClickListener {
-            numClick(binding.txtEquacao, "1")
+            numberClick(binding.txtEquacao, "1")
         }
 
         binding.btn2.setOnClickListener{
-            numClick(binding.txtEquacao, "2")
+            numberClick(binding.txtEquacao, "2")
         }
 
         binding.btn3.setOnClickListener{
-            numClick(binding.txtEquacao, "3")
+            numberClick(binding.txtEquacao, "3")
         }
 
         binding.btn4.setOnClickListener{
-            numClick(binding.txtEquacao, "4")
+            numberClick(binding.txtEquacao, "4")
         }
 
         binding.btn5.setOnClickListener{
-            numClick(binding.txtEquacao, "5")
+            numberClick(binding.txtEquacao, "5")
         }
 
         binding.btn6.setOnClickListener{
-            numClick(binding.txtEquacao, "6")
+            numberClick(binding.txtEquacao, "6")
         }
 
 
         binding.btn7.setOnClickListener{
-            numClick(binding.txtEquacao, "7")
+            numberClick(binding.txtEquacao, "7")
         }
 
         binding.btn8.setOnClickListener{
-            numClick(binding.txtEquacao, "8")
+            numberClick(binding.txtEquacao, "8")
         }
 
         binding.btn9.setOnClickListener{
-            numClick(binding.txtEquacao, "9")
+            numberClick(binding.txtEquacao, "9")
+        }
+
+        binding.btnVirgula.setOnClickListener{
+            if (!hasComa) {
+                if (currentNumber.isEmpty()) {
+                    numberClick(binding.txtEquacao, "0.")
+                    hasComa = true
+                } else {
+                    numberClick(binding.txtEquacao, ".")
+                    hasComa = true
+                }
+            }
         }
 
         binding.btnDel.setOnClickListener {
             binding.txtEquacao.text = ""
+            binding.txtResult.text = ""
+            currentNumber = ""
+            blockOperator = true
+            hasComa = false
         }
 
         binding.btnAdic.setOnClickListener {
-            binding.txtEquacao.text = expressionClick(binding.txtEquacao.text.toString(), " + ")
+            expressionClick(binding.txtEquacao, "+")
         }
 
         binding.btnSubt.setOnClickListener {
-            binding.txtEquacao.text = expressionClick(binding.txtEquacao.text.toString(), " - ")
+            expressionClick(binding.txtEquacao, "-")
         }
 
         binding.btnMult.setOnClickListener {
-            binding.txtEquacao.text = expressionClick(binding.txtEquacao.text.toString(), " * ")
+            expressionClick(binding.txtEquacao, "*")
         }
-
 
         binding.btnDivi.setOnClickListener {
-            binding.txtEquacao.text = expressionClick(binding.txtEquacao.text.toString(), " / ")
+            expressionClick(binding.txtEquacao, "/")
+        }
+
+        binding.btnIgual.setOnClickListener {
+            if (!blockOperator) {
+                listExpression.add(currentNumber.toFloat())
+                binding.txtResult.text = Calculadora.getCalculo(listExpression)
+                binding.txtEquacao.text = ""
+                blockOperator = true
+                currentNumber = ""
+                listExpression.clear()
+            }
         }
     }
 
-    private fun numClick(expression: TextView, number: String) {
+    private fun numberClick(expression: TextView, number: String) {
+        if (blockOperator)
+            blockOperator = false
         expression.text = expression.text.toString().plus(number)
+        currentNumber = currentNumber.plus(number)
     }
 
-    private fun expressionClick(expression: String, operator: String): CharSequence {
-        return expression.plus(operator)
+    private fun expressionClick(expression: TextView, operator: String) {
+        if (!blockOperator) {
+            expression.text = expression.text.toString().plus(operator)
+            listExpression.add(currentNumber.toFloat())
+            listExpression.add(operator)
+            blockOperator = true
+            hasComa = false
+            currentNumber = ""
+        }
     }
 
 }
