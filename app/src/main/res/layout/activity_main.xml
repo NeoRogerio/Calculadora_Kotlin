@@ -15,22 +15,29 @@
 
         <TextView
             android:id="@+id/txtEquacao"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="64dp"
             android:hint="@string/equacao"
+            android:textAlignment="viewEnd"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="@+id/txtResult"
+            app:layout_constraintStart_toStartOf="@+id/txtResult"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/txtResult"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
             android:hint="@string/result"
+            android:textAlignment="viewEnd"
             android:textSize="34sp"
-            app:layout_constraintEnd_toEndOf="@+id/btnSubt"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtEquacao" />
 
         <Button
@@ -122,6 +129,7 @@
             android:id="@+id/btn0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/design_default_color_primary"
             android:text="@string/_0"
             app:layout_constraintStart_toEndOf="@+id/btnVirgula"
             app:layout_constraintTop_toBottomOf="@+id/btn2" />
@@ -131,6 +139,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:background="@color/design_default_color_primary"
             android:text="@string/coma"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn1" />
@@ -139,6 +148,7 @@
             android:id="@+id/btnDel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/design_default_color_primary"
             android:text="@string/del"
             app:layout_constraintStart_toEndOf="@+id/btn0"
             app:layout_constraintTop_toBottomOf="@+id/btn3" />
@@ -147,36 +157,40 @@
             android:id="@+id/btnSubt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:background="@color/design_default_color_primary"
             android:text="@string/minus"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/btn9"
             app:layout_constraintTop_toTopOf="@+id/btn8" />
 
         <Button
             android:id="@+id/btnAdic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:background="@color/design_default_color_primary"
             android:text="@string/plus"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/btn6"
             app:layout_constraintTop_toBottomOf="@+id/btnSubt" />
 
         <Button
             android:id="@+id/btnMult"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:background="@color/design_default_color_primary"
             android:text="@string/multiply"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/btn3"
             app:layout_constraintTop_toBottomOf="@+id/btnAdic" />
 
         <Button
             android:id="@+id/btnDivi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:background="@color/design_default_color_primary"
             android:text="@string/divide"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/btnDel"
             app:layout_constraintTop_toBottomOf="@+id/btnMult" />
 
         <Button
