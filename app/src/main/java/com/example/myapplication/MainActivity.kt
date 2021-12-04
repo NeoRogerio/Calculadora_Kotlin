@@ -3,7 +3,9 @@ package com.example.myapplication
 // Importando o layout a partir do nome definido no XML
 import android.os.Bundle
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModel
 import com.example.myapplication.databinding.CalculadoraUIBinding
 
 var blockOperator:Boolean = true
@@ -19,85 +21,84 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val model: CalculadoraViewModel by viewModels()
+
         // Inicializando a variavel pre declarada
         binding = CalculadoraUIBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //Listeners dos Botões
         binding.btn0.setOnClickListener {
-            numberClick(binding.txtEquacao, "0")
+            model.numberClick(binding.txtEquacao, "0",false)
         }
 
         binding.btn1.setOnClickListener {
-            numberClick(binding.txtEquacao, "1")
+            model.numberClick(binding.txtEquacao, "1",false)
         }
 
         binding.btn2.setOnClickListener{
-            numberClick(binding.txtEquacao, "2")
+            model.numberClick(binding.txtEquacao, "2",false)
         }
 
         binding.btn3.setOnClickListener{
-            numberClick(binding.txtEquacao, "3")
+            model.numberClick(binding.txtEquacao, "3",false)
         }
 
         binding.btn4.setOnClickListener{
-            numberClick(binding.txtEquacao, "4")
+            model.numberClick(binding.txtEquacao, "4",false)
         }
 
         binding.btn5.setOnClickListener{
-            numberClick(binding.txtEquacao, "5")
+            model.numberClick(binding.txtEquacao, "5",false)
         }
 
         binding.btn6.setOnClickListener{
-            numberClick(binding.txtEquacao, "6")
+            model.numberClick(binding.txtEquacao, "6",false)
         }
 
 
         binding.btn7.setOnClickListener{
-            numberClick(binding.txtEquacao, "7")
+            model.numberClick(binding.txtEquacao, "7",false)
         }
 
         binding.btn8.setOnClickListener{
-            numberClick(binding.txtEquacao, "8")
+            model.numberClick(binding.txtEquacao, "8",false)
         }
 
         binding.btn9.setOnClickListener{
-            numberClick(binding.txtEquacao, "9")
+            model.numberClick(binding.txtEquacao, "9", false)
         }
 
         binding.btnVirgula.setOnClickListener{
             if (!hasComa) {
                 if (currentNumber.isEmpty()) {
-                    numberClick(binding.txtEquacao, "0.")
+                    model.numberClick(binding.txtEquacao, "0.", false)
                     hasComa = true
                 } else {
-                    numberClick(binding.txtEquacao, ".")
+                    model.numberClick(binding.txtEquacao, ".", false)
                     hasComa = true
                 }
             }
         }
 
         binding.btnDel.setOnClickListener {
-            binding.txtEquacao.text = ""
-            binding.txtResult.text = ""
-            currentNumber = ""
-            blockOperator = true
-            hasComa = false
+            model.numberClick(binding.txtEquacao, "", true)
         }
 
         binding.btnAdic.setOnClickListener {
-            expressionClick(binding.txtEquacao, "+")
+            model.expressionClick(binding.txtEquacao, "+")
         }
 
         binding.btnSubt.setOnClickListener {
-            expressionClick(binding.txtEquacao, "-")
+            model.expressionClick(binding.txtEquacao, "-")
         }
 
         binding.btnMult.setOnClickListener {
-            expressionClick(binding.txtEquacao, "*")
+            model.expressionClick(binding.txtEquacao, "*")
         }
 
         binding.btnDivi.setOnClickListener {
-            expressionClick(binding.txtEquacao, "/")
+            model.expressionClick(binding.txtEquacao, "/")
         }
 
         binding.btnIgual.setOnClickListener {
@@ -109,24 +110,6 @@ class MainActivity : AppCompatActivity() {
                 currentNumber = ""
                 listExpression.clear()
             }
-        }
-    }
-
-    private fun numberClick(expression: TextView, number: String) {
-        if (blockOperator)
-            blockOperator = false
-        expression.text = expression.text.toString().plus(number)
-        currentNumber = currentNumber.plus(number)
-    }
-
-    private fun expressionClick(expression: TextView, operator: String) {
-        if (!blockOperator) {
-            expression.text = expression.text.toString().plus(operator)
-            listExpression.add(currentNumber.toFloat())
-            listExpression.add(operator)
-            blockOperator = true
-            hasComa = false
-            currentNumber = ""
         }
     }
 
