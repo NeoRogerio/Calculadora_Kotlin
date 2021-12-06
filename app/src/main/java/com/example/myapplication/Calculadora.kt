@@ -1,7 +1,5 @@
 package com.example.myapplication
 
-import android.util.Log
-
 class Calculadora {
     companion object{
         fun getCalculo(expressao:MutableList<Any>):String {

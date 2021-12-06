@@ -1,10 +1,24 @@
 package com.example.myapplication
 
-import android.util.Log
 import android.widget.TextView
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class CalculadoraViewModel : ViewModel() {
+class CalculadoraViewModel() : ViewModel() {
+
+    private val _expressionData: MutableLiveData<String> by lazy {
+        MutableLiveData<String>()
+    }
+    private val _resultData: MutableLiveData<String> by lazy {
+        MutableLiveData<String>()
+    }
+
+    val expressionData: LiveData<String>
+        get() = _expressionData
+    val resultData: LiveData<String>
+        get() = _resultData
+
     private var blockOperator:Boolean = true
     private var hasComa:Boolean = false
     private var currentNumber:String = ""
@@ -16,26 +30,26 @@ class CalculadoraViewModel : ViewModel() {
             currentNumber = ""
             blockOperator = true
             hasComa = false
-        }
-        if (blockOperator)
-            blockOperator = false
-        if (number == ".") {
-            if (!hasComa) {
-                if (currentNumber.isEmpty()) {
-                    expression.text = expression.text.toString().plus("0.")
-                    currentNumber = currentNumber.plus("0.")
-                    hasComa = true
-                } else {
-                    expression.text = expression.text.toString().plus(number)
-                    currentNumber = currentNumber.plus(number)
-                    hasComa = true
-                }
-            }
         } else {
-            expression.text = expression.text.toString().plus(number)
-            currentNumber = currentNumber.plus(number)
+            if (blockOperator)
+                blockOperator = false
+            if (number == ".") {
+                if (!hasComa) {
+                    if (currentNumber.isEmpty()) {
+                        expression.text = expression.text.toString().plus("0.")
+                        currentNumber = currentNumber.plus("0.")
+                        hasComa = true
+                    } else {
+                        expression.text = expression.text.toString().plus(number)
+                        currentNumber = currentNumber.plus(number)
+                        hasComa = true
+                    }
+                }
+            } else {
+                expression.text = expression.text.toString().plus(number)
+                currentNumber = currentNumber.plus(number)
+            }
         }
-        Log.i("test", currentNumber)
     }
 
     fun expressionClick(expression: TextView, operator: String) {
@@ -46,6 +60,17 @@ class CalculadoraViewModel : ViewModel() {
             blockOperator = true
             hasComa = false
             currentNumber = ""
+        }
+    }
+
+    fun equalClick(expression: TextView, ResultTextView: TextView) {
+        if (!blockOperator) {
+            listExpression.add(currentNumber.toFloat())
+            ResultTextView.text = Calculadora.getCalculo(listExpression)
+            expression.text = ""
+            blockOperator = true
+            currentNumber = ""
+            listExpression.clear()
         }
     }
 }
