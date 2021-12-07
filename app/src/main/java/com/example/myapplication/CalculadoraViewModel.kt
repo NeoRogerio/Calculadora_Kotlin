@@ -1,32 +1,33 @@
 package com.example.myapplication
 
-import android.widget.TextView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class CalculadoraViewModel() : ViewModel() {
+class CalculadoraViewModel : ViewModel() {
 
-    private val _expressionData: MutableLiveData<String> by lazy {
-        MutableLiveData<String>()
-    }
-    private val _resultData: MutableLiveData<String> by lazy {
-        MutableLiveData<String>()
-    }
+    private val _expressionData = MutableLiveData<String>()
+    private val _resultData = MutableLiveData<String>()
 
     val expressionData: LiveData<String>
         get() = _expressionData
     val resultData: LiveData<String>
         get() = _resultData
 
+    init {
+        _expressionData.value = ""
+        _resultData.value = ""
+    }
+
     private var blockOperator:Boolean = true
     private var hasComa:Boolean = false
     private var currentNumber:String = ""
     private var listExpression = mutableListOf<Any>()
 
-    fun numberClick(expression: TextView, number: String, del: Boolean) {
+    fun numberClick(number: String, del: Boolean) {
         if (del) {
-            expression.text = ""
+            _expressionData.value = ""
+            _resultData.value = ""
             currentNumber = ""
             blockOperator = true
             hasComa = false
@@ -36,25 +37,25 @@ class CalculadoraViewModel() : ViewModel() {
             if (number == ".") {
                 if (!hasComa) {
                     if (currentNumber.isEmpty()) {
-                        expression.text = expression.text.toString().plus("0.")
+                        _expressionData.value = _expressionData.value.plus("0.")
                         currentNumber = currentNumber.plus("0.")
                         hasComa = true
                     } else {
-                        expression.text = expression.text.toString().plus(number)
+                        _expressionData.value = _expressionData.value.toString().plus(number)
                         currentNumber = currentNumber.plus(number)
                         hasComa = true
                     }
                 }
             } else {
-                expression.text = expression.text.toString().plus(number)
+                _expressionData.value = _expressionData.value.toString().plus(number)
                 currentNumber = currentNumber.plus(number)
             }
         }
     }
 
-    fun expressionClick(expression: TextView, operator: String) {
+    fun expressionClick(operator: String) {
         if (!blockOperator) {
-            expression.text = expression.text.toString().plus(operator)
+            _expressionData.value = _expressionData.value.toString().plus(operator)
             listExpression.add(currentNumber.toFloat())
             listExpression.add(operator)
             blockOperator = true
@@ -63,11 +64,11 @@ class CalculadoraViewModel() : ViewModel() {
         }
     }
 
-    fun equalClick(expression: TextView, ResultTextView: TextView) {
+    fun equalClick() {
         if (!blockOperator) {
             listExpression.add(currentNumber.toFloat())
-            ResultTextView.text = Calculadora.getCalculo(listExpression)
-            expression.text = ""
+            _resultData.value = Calculadora.getCalculo(listExpression)
+            _expressionData.value = ""
             blockOperator = true
             currentNumber = ""
             listExpression.clear()
