@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Calculadora</string>
-    <string name="hint_calc">Enter the expression</string>
     <string name="result">Resultado</string>
     <string name="equacao">Equaçao</string>
     <string name="_1">1</string>
