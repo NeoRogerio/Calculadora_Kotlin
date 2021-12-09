@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.databinding.CalculadoraUIBinding
+import io.realm.Realm
 
 class MainActivity : AppCompatActivity() {
     // Definindo a variavel que ira receber o layout da calculadora
@@ -14,6 +15,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        Realm.init(this) // Ininicializar biblioteca do Realm apenas uma vez, passando um contexto
 
         // Inicializando a variavel pre declarada
         binding = CalculadoraUIBinding.inflate(layoutInflater)
@@ -25,6 +28,9 @@ class MainActivity : AppCompatActivity() {
         })
         viewModel.resultData.observe(this, {
             binding.txtResult.text = viewModel.resultData.value
+        })
+        viewModel.historico.observe(this, {
+            binding.historico.text = viewModel.historico.value
         })
 
         //Listeners dos Botões
