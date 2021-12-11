@@ -2,8 +2,11 @@ package com.example.myapplication
 
 // Importando o layout a partir do nome definido no XML
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.ui.node.getOrAddAdapter
+import androidx.lifecycle.map
 import com.example.myapplication.databinding.CalculadoraUIBinding
 import io.realm.Realm
 
@@ -26,11 +29,12 @@ class MainActivity : AppCompatActivity() {
         viewModel.expressionData.observe(this, {
             binding.txtEquacao.text = viewModel.expressionData.value
         })
+
         viewModel.resultData.observe(this, {
             binding.txtResult.text = viewModel.resultData.value
         })
+
         viewModel.historico.observe(this, {
-            binding.historicoResult.
         })
 
         //Listeners dos Botões

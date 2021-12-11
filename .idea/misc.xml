@@ -5,11 +5,11 @@
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.21770833333333334" />
         <entry key="app/src/main/res/drawable/gradient.xml" value="0.32037037037037036" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.36228287841191065" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.22592592592592592" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
