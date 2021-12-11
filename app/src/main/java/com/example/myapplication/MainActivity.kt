@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
             binding.txtResult.text = viewModel.resultData.value
         })
         viewModel.historico.observe(this, {
-            binding.historico.text = viewModel.historico.value
+            binding.historicoResult.
         })
 
         //Listeners dos Botões

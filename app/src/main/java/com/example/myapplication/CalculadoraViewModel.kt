@@ -12,13 +12,13 @@ class CalculadoraViewModel : ViewModel() {
 
     private val _expressionData = MutableLiveData<String>()
     private val _resultData = MutableLiveData<String>()
-    private val _historico = MutableLiveData<String>()
+    private val _historico = MutableLiveData<ArrayList<String>>()
 
     val expressionData: LiveData<String>
         get() = _expressionData
     val resultData: LiveData<String>
         get() = _resultData
-    val historico: LiveData<String>
+    val historico: LiveData<ArrayList<String>>
         get() = _historico
 
     private var blockOperator:Boolean = true
@@ -35,11 +35,15 @@ class CalculadoraViewModel : ViewModel() {
 
     private val calculadoraModel : ExpressionsList = ExpressionsList()
     private var listaHistorico: RealmResults<ExpressionsList> = backgroundThreadRealm.where<ExpressionsList>().findAll()
+    var arrayHistorico = ArrayList<String>()
 
     init {
         _expressionData.value = ""
         _resultData.value = ""
-        _historico.value = listaHistorico.asJSON()
+        for (lista in listaHistorico) {
+            arrayHistorico.add(lista.expressionResult)
+        }
+        _historico.value = arrayHistorico
     }
 
     fun numberClick(number: String, del: Boolean) {
@@ -87,7 +91,7 @@ class CalculadoraViewModel : ViewModel() {
             listExpression.add(currentNumber.toFloat())
             _resultData.value = Calculadora.getCalculo(listExpression)
             calculadoraModel.expressionResult = _expressionData.value.plus(" = " + _resultData.value)
-            backgroundThreadRealm.executeTransaction { transitionRealm ->
+            backgroundThreadRealm.executeTransaction    { transitionRealm ->
                 transitionRealm.insertOrUpdate(calculadoraModel)
             }
             _expressionData.value = ""
@@ -95,7 +99,11 @@ class CalculadoraViewModel : ViewModel() {
             currentNumber = ""
             listExpression.clear()
             listaHistorico = backgroundThreadRealm.where<ExpressionsList>().findAll()
-            _historico.value = listaHistorico.asJSON()
+            arrayHistorico.clear()
+            for (lista in listaHistorico) {
+                arrayHistorico.add(lista.expressionResult)
+            }
+            _historico.value = arrayHistorico
         }
     }
 
