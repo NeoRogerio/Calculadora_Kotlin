@@ -26,12 +26,8 @@ class CalculadoraViewModel : ViewModel() {
     private var currentNumber:String = ""
     private var listExpression = mutableListOf<Any>()
 
-    private val realmName: String = "Resultados"
-    private val config = RealmConfiguration.Builder()
-        .name(realmName)
-        .allowWritesOnUiThread(true)
-        .build()
-    private val backgroundThreadRealm: Realm = Realm.getInstance(config)
+
+    private val backgroundThreadRealm: Realm = Realm.getInstance()
 
     private val calculadoraModel : ExpressionsList = ExpressionsList()
     private var listaHistorico: RealmResults<ExpressionsList> = backgroundThreadRealm.where<ExpressionsList>().findAll()

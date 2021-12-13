@@ -6,23 +6,25 @@ import android.util.TypedValue
 import android.view.ViewGroup
 import android.widget.ScrollView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.myapplication.databinding.CalculadoraUIBinding
 import io.realm.Realm
+import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
     // Definindo a variavel que ira receber o layout da calculadora
     // "lateinit" para declarar a variavel para inicializar mais tarde
     private lateinit var binding: CalculadoraUIBinding
+    private lateinit var realm : Realm
     private val viewModel: CalculadoraViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Realm.init(this) // Ininicializar biblioteca do Realm apenas uma vez, passando um contexto
-
+        realm = Realm.getDefaultInstance()
         // Inicializando a variavel pre declarada
         binding = CalculadoraUIBinding.inflate(layoutInflater)
         binding.lifecycleOwner = this
@@ -119,6 +121,21 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnIgual.setOnClickListener {
             viewModel.equalClick()
+            addResultToDb()
+        }
+    }
+
+    private fun addResultToDb() {
+        try {
+            realm.beginTransaction()
+            val calculadoraModel = ExpressionsList()
+            calculadoraModel.expressionResult = viewModel.expressionData.value.plus(" = " + viewModel.resultData)
+            realm.copyToRealmOrUpdate(calculadoraModel)
+            realm.commitTransaction()
+
+            Toast.makeText(this, "Sucesso!", Toast.LENGTH_SHORT).show()
+        } catch (e : Exception) {
+            Toast.makeText(this, "Erro $e", Toast.LENGTH_LONG).show()
         }
     }
 
