@@ -107,4 +107,6 @@ class CalculadoraViewModel : ViewModel() {
         }
     }
 
+
+
 }

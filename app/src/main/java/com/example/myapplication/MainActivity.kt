@@ -2,11 +2,13 @@ package com.example.myapplication
 
 // Importando o layout a partir do nome definido no XML
 import android.os.Bundle
-import android.util.Log
+import android.util.TypedValue
+import android.view.ViewGroup
+import android.widget.ScrollView
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.ui.node.getOrAddAdapter
-import androidx.lifecycle.map
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.myapplication.databinding.CalculadoraUIBinding
 import io.realm.Realm
 
@@ -35,6 +37,18 @@ class MainActivity : AppCompatActivity() {
         })
 
         viewModel.historico.observe(this, {
+            binding.linearHistorico.removeAllViews()
+            for (resultado in viewModel.historico.value!!) {
+                val tvHistorico = TextView(this)
+                tvHistorico.layoutParams = ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                tvHistorico.textAlignment = ConstraintLayout.TEXT_ALIGNMENT_TEXT_END
+                tvHistorico.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18F)
+                tvHistorico.text = resultado
+                binding.linearHistorico.addView(tvHistorico)
+            }
+            binding.scrollHistorico.post {
+                binding.scrollHistorico.fullScroll(ScrollView.FOCUS_DOWN)
+            }
         })
 
         //Listeners dos Botões

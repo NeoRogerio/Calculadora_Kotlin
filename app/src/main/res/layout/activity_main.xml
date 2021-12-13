@@ -17,7 +17,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:hint="@string/equacao"
             android:textAlignment="viewEnd"
@@ -26,7 +26,7 @@
             app:layout_constraintBottom_toTopOf="@+id/txtResult"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/scrollHistorico"
             app:layout_constraintVertical_chainStyle="spread"
             tools:ignore="TextContrastCheck" />
 
@@ -34,7 +34,7 @@
             android:id="@+id/txtResult"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="8dp"
             android:hint="@string/result"
             android:textAlignment="viewEnd"
             android:textColor="?attr/colorOnBackground"
@@ -138,14 +138,14 @@
 
         <Button
             android:id="@+id/btn7"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="32dp"
-            android:text="@string/_7"
-            android:textSize="20sp"
-            android:textColor="?attr/colorOnPrimary"
+            android:layout_marginTop="16dp"
             android:background="?attr/colorPrimary"
-            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:text="@string/_7"
+            android:textColor="?attr/colorOnPrimary"
+            android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@+id/btn4"
             app:layout_constraintEnd_toStartOf="@+id/btn8"
             app:layout_constraintHorizontal_bias="0.5"
@@ -308,13 +308,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnVirgula" />
 
-        <TextView
-            android:id="@+id/txtHistorico"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView"
+        <ScrollView
+            android:id="@+id/scrollHistorico"
+            android:layout_width="match_parent"
+            android:layout_height="96dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:id="@+id/linearHistorico"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </ScrollView>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
